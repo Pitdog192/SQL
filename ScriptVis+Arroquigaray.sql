@@ -92,3 +92,22 @@ CREATE VIEW `VW_horasdejuego` AS SELECT name as Juego, hs_totl as Horas_Totales 
 CREATE VIEW `VW_respos.juego` AS SELECT name as Juego, res as Resenias_Positivas, pos_neg as Positiva FROM juegos INNER JOIN resenia on juegos.id_game = resenia.id_game where pos_neg > 0;
 
 CREATE VIEW `VW_jugador.por.hora` AS SELECT nick as jugador, hs_totl as horas, name as juego FROM jugadores INNER JOIN horas on jugadores.id_player = horas.id_player INNER JOIN juegos on horas.id_game = juegos.id_game group by horas.hs_totl;
+
+/* CREACION DE FUNCIONES */
+/* SUMA EL TOTAL DE HORAS DE TODOS LOS JUEGOS, PONIENDO UN TITULO*/
+CREATE FUNCTION `tiempo`(titulo char) RETURNS float
+BEGIN
+	declare numero float;
+    select sum(hs_totl) into numero from horas as titulo;
+RETURN numero;
+END
+
+/*SUMA 2 NUMEROS*/
+CREATE FUNCTION `sumar`(param1 int, param2 int) RETURNS char(60)
+BEGIN
+	declare resultado char (60);
+    declare suma int default 0;
+    set suma = param1 + param2;
+    set resultado = concat('El resultado de la suma es:' +suma);
+RETURN resultado;
+END
